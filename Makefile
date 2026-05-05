@@ -1,13 +1,22 @@
-.PHONY: test build web clean
+.PHONY: build test lint docker-build clean
+
+BINARY_CLI  := issue2md-cli
+BINARY_WEB  := issue2md-web
+BUILD_DIR   := bin
+IMAGE_TAG   := issue2md:latest
+
+build:
+	go build -o $(BUILD_DIR)/$(BINARY_CLI) ./cmd/issue2md
+	go build -o $(BUILD_DIR)/$(BINARY_WEB)  ./cmd/issue2mdweb
 
 test:
 	go test ./... -v
 
-build:
-	go build -o bin/issue2md ./cmd/issue2md
+lint:
+	golangci-lint run ./...
 
-web:
-	go build -o bin/issue2mdweb ./cmd/issue2mdweb
+docker-build:
+	docker build -t $(IMAGE_TAG) .
 
 clean:
-	rm -rf bin/
+	rm -rf $(BUILD_DIR)

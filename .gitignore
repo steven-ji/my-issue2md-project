@@ -3,3 +3,4 @@
 .idea/ 
 *.DS_Store 
 /my-issue2md-project
+bin/
